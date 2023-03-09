@@ -14,17 +14,12 @@
   </a-layout-header>
 </template>
 
-<script lang="ts">
-  import { defineComponent } from 'vue';
-
-  export default defineComponent({
-    name: "the-header",
-    props: {
-      msg: String,
-    },
-  });
+<script>
+export default {
+  name: "the-header"
+}
 </script>
 
-<style>
+<style scoped>
 
 </style>
