@@ -54,16 +54,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import axios from 'axios';
+import {defineComponent} from "vue";
+import axios from "axios";
 
 export default defineComponent({
   name: 'Home',
   setup() {
-    console.log("setup");
-    axios.get("http://localhost:8880/ebook/list?name=Python").then((response) => {
-      console.log(response);
-    });
+    console.log("step");
+    axios.get(
+        "http://localhost:8880/ebook/list?name=Python")
+        .then((response) => {
+          console.log(response)
+        });
   }
 });
 </script>
