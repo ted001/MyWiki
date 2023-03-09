@@ -12,7 +12,7 @@
           @change="handleTableChange"
       >
         <template #cover="{ text: cover }">
-          <img v-if="cover" :src="cover" alt="avatar"/>
+          <img v-if="cover" :src="cover" alt="avatar" />
         </template>
         <template v-slot:action="{ text, record }">
           <a-space size="small">
@@ -28,9 +28,10 @@
     </a-layout-content>
   </a-layout>
 </template>
+
 <script lang="ts">
-import {defineComponent, onMounted, ref} from 'vue'
-import axios from "axios";
+import { defineComponent, onMounted, ref } from 'vue';
+import axios from 'axios';
 
 export default defineComponent({
   name: 'AdminEbook',
@@ -38,23 +39,29 @@ export default defineComponent({
     const ebooks = ref();
     const pagination = ref({
       current: 1,
-      pageSize: 2,
+      pageSize: 4,
       total: 0
     });
     const loading = ref(false);
+
     const columns = [
       {
         title: '封面',
         dataIndex: 'cover',
-        slots: {customRender: 'cover'}
+        slots: { customRender: 'cover' }
       },
       {
         title: '名称',
         dataIndex: 'name'
       },
       {
-        title: '分类',
-        slots: {customRender: 'category'}
+        title: '分类一',
+        key: 'category1Id',
+        dataIndex: 'category1Id'
+      },
+      {
+        title: '分类二',
+        dataIndex: 'category2Id'
       },
       {
         title: '文档数',
@@ -71,34 +78,49 @@ export default defineComponent({
       {
         title: 'Action',
         key: 'action',
-        slots: {customRender: 'action'}
+        slots: { customRender: 'action' }
       }
     ];
+
     /**
      * 数据查询
      **/
     const handleQuery = (params: any) => {
       loading.value = true;
-      axios.get("/ebook/list", params).then((response) => {
+      axios.get("/ebook/list", {
+        params: {
+          page: params.page,
+          size: params.size
+        }
+      }).then((response) => {
         loading.value = false;
         const data = response.data;
-        ebooks.value = data.content;
+        ebooks.value = data.content.list;
+
         // 重置分页按钮
         pagination.value.current = params.page;
+        pagination.value.total = data.content.total;
       });
     };
+
     /**
      * 表格点击页码时触发
      */
     const handleTableChange = (pagination: any) => {
+      console.log("看看自带的分页参数都有啥：" + pagination);
       handleQuery({
         page: pagination.current,
         size: pagination.pageSize
       });
     };
+
     onMounted(() => {
-      handleQuery({});
+      handleQuery({
+        page: 1,
+        size: pagination.value.pageSize,
+      });
     });
+
     return {
       ebooks,
       pagination,
@@ -107,10 +129,9 @@ export default defineComponent({
       handleTableChange
     }
   }
-
-
-})
+});
 </script>
+
 <style scoped>
 img {
   width: 50px;
