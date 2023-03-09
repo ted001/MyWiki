@@ -6,6 +6,7 @@ import com.ted.mywiki.domain.EbookExample;
 import com.ted.mywiki.mapper.EbookMapper;
 import com.ted.mywiki.req.EbookReq;
 import com.ted.mywiki.resp.EbookResp;
+import com.ted.mywiki.util.CopyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -30,12 +31,10 @@ public class EbookService {
         criteria.andNameLike("%" + req.getName() + "%");
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
 
-        List<EbookResp> respList = new ArrayList<>();
-        for (Ebook ebook : ebookList) {
-            EbookResp ebookResp = new EbookResp();
-            BeanUtils.copyProperties(ebook, ebookResp);
-            respList.add(ebookResp);
-        }
+
+        // 列表复制
+        List<EbookResp> respList = CopyUtil.copyList(ebookList, EbookResp.class);
+
         return respList;
 
     }
