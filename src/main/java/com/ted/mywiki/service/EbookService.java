@@ -1,6 +1,6 @@
 package com.ted.mywiki.service;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
+import com.github.pagehelper.PageHelper;
 import com.ted.mywiki.domain.Ebook;
 import com.ted.mywiki.domain.EbookExample;
 import com.ted.mywiki.mapper.EbookMapper;
@@ -9,12 +9,10 @@ import com.ted.mywiki.resp.EbookResp;
 import com.ted.mywiki.util.CopyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,6 +30,7 @@ public class EbookService {
         if (!ObjectUtils.isEmpty(req.getName())) {
             criteria.andNameLike("%" + req.getName() + "%");
         }
+        PageHelper.startPage(1, 3);
         List<Ebook> ebooks = ebookMapper.selectByExample(ebookExample);
         List<EbookResp> respList = CopyUtil.copyList(ebooks, EbookResp.class);
         return respList;
