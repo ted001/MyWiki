@@ -17,22 +17,12 @@
           </a-form-item>
         </a-form>
       </p>
-      <p>
-        <a-alert
-            class="tip"
-            message="小提示：这里的分类会显示到首页的侧边菜单"
-            type="info"
-            closable
-        />
-      </p>
       <a-table
-          v-if="level1.length > 0"
           :columns="columns"
           :row-key="record => record.id"
           :data-source="level1"
           :loading="loading"
           :pagination="false"
-          :defaultExpandAllRows="true"
       >
         <template #cover="{ text: cover }">
           <img v-if="cover" :src="cover" alt="avatar" />
@@ -73,7 +63,7 @@
             v-model:value="category.parent"
             ref="select"
         >
-          <a-select-option :value="0">
+          <a-select-option value="0">
             无
           </a-select-option>
           <a-select-option v-for="c in level1" :key="c.id" :value="c.id" :disabled="category.id === c.id">
@@ -107,11 +97,11 @@ export default defineComponent({
         title: '名称',
         dataIndex: 'name'
       },
-      // {
-      //   title: '父分类',
-      //   key: 'parent',
-      //   dataIndex: 'parent'
-      // },
+      {
+        title: '父分类',
+        key: 'parent',
+        dataIndex: 'parent'
+      },
       {
         title: '顺序',
         dataIndex: 'sort'
@@ -135,7 +125,6 @@ export default defineComponent({
      * }]
      */
     const level1 = ref(); // 一级分类树，children属性就是二级分类
-    level1.value = [];
 
     /**
      * 数据查询
@@ -202,8 +191,6 @@ export default defineComponent({
         if (data.success) {
           // 重新加载列表
           handleQuery();
-        } else {
-          message.error(data.message);
         }
       });
     };
