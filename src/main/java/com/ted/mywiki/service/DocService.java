@@ -13,9 +13,7 @@ import com.ted.mywiki.util.CopyUtil;
 import com.ted.mywiki.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
@@ -91,5 +89,12 @@ public class DocService {
 
     public void delete(Long id) {
         docMapper.deleteByPrimaryKey(id);
+    }
+
+    public void delete(List<String> ids) {
+        DocExample docExample = new DocExample();
+        DocExample.Criteria criteria = docExample.createCriteria();
+        criteria.andIdIn(ids);
+        docMapper.deleteByExample(docExample);
     }
 }
