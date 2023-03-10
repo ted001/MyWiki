@@ -3,7 +3,7 @@
 <mapper namespace="com.ted.mywiki.mapper.CategoryMapper">
   <resultMap id="BaseResultMap" type="com.ted.mywiki.domain.Category">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="parent" jdbcType="VARCHAR" property="parent" />
+    <result column="parent" jdbcType="BIGINT" property="parent" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
   </resultMap>
@@ -101,7 +101,7 @@
   <insert id="insert" parameterType="com.ted.mywiki.domain.Category">
     insert into category (id, parent, `name`, 
       sort)
-    values (#{id,jdbcType=BIGINT}, #{parent,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
       #{sort,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ted.mywiki.domain.Category">
@@ -125,7 +125,7 @@
         #{id,jdbcType=BIGINT},
       </if>
       <if test="parent != null">
-        #{parent,jdbcType=VARCHAR},
+        #{parent,jdbcType=BIGINT},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -148,7 +148,7 @@
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.parent != null">
-        parent = #{record.parent,jdbcType=VARCHAR},
+        parent = #{record.parent,jdbcType=BIGINT},
       </if>
       <if test="record.name != null">
         `name` = #{record.name,jdbcType=VARCHAR},
@@ -164,7 +164,7 @@
   <update id="updateByExample" parameterType="map">
     update category
     set id = #{record.id,jdbcType=BIGINT},
-      parent = #{record.parent,jdbcType=VARCHAR},
+      parent = #{record.parent,jdbcType=BIGINT},
       `name` = #{record.name,jdbcType=VARCHAR},
       sort = #{record.sort,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -175,7 +175,7 @@
     update category
     <set>
       <if test="parent != null">
-        parent = #{parent,jdbcType=VARCHAR},
+        parent = #{parent,jdbcType=BIGINT},
       </if>
       <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
@@ -188,7 +188,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ted.mywiki.domain.Category">
     update category
-    set parent = #{parent,jdbcType=VARCHAR},
+    set parent = #{parent,jdbcType=BIGINT},
       `name` = #{name,jdbcType=VARCHAR},
       sort = #{sort,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}

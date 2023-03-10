@@ -3,7 +3,7 @@ package com.ted.mywiki.domain;
 public class Category {
     private Long id;
 
-    private String parent;
+    private Long parent;
 
     private String name;
 
@@ -17,11 +17,11 @@ public class Category {
         this.id = id;
     }
 
-    public String getParent() {
+    public Long getParent() {
         return parent;
     }
 
-    public void setParent(String parent) {
+    public void setParent(Long parent) {
         this.parent = parent;
     }
 
